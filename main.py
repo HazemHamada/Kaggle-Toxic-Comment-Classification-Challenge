@@ -156,21 +156,21 @@ model = tf.keras.Sequential([
     tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length=max_length),
     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, return_sequences=True)),
     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(32)),
-    tf.keras.layers.Dropout(0.1),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(64, activation='relu'),
-    tf.keras.layers.Dropout(0.1),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(6, activation='sigmoid')
 ])
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 #model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 model.summary()
-plot_model(model, to_file='model_plot4a.png', show_shapes=True, show_layer_names=True)
+#plot_model(model, to_file='model_plot4a.png', show_shapes=True, show_layer_names=True)
 
 NUM_EPOCHS = 5
 history = model.fit(Train_padded, trainLabels, epochs=NUM_EPOCHS, validation_data=(Test_padded, testLabels), verbose=1)
 #history = model.fit(np.array(Train_padded), np.array(trainLabels), epochs=NUM_EPOCHS, validation_data=(np.array(Test_padded), np.array(testLabels)), verbose=1)
 
-results = model.evaluate(Test_padded, test.labels, batch_size=BATCH_SIZE)
+results = model.evaluate(Test_padded, testLabels, batch_size=BATCH_SIZE)
 
 gc.collect()
 
